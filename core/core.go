@@ -6,7 +6,6 @@ import (
 )
 
 func Load(filenames ...string) (err error) {
-
 	if len(filenames) == 0 {
 		filenames = []string{".env"}
 	}
@@ -14,10 +13,10 @@ func Load(filenames ...string) (err error) {
 	for _, filename := range filenames {
 		err = load(filename, false)
 		if err != nil {
-			return
+			return err
 		}
 	}
-	return
+	return nil
 }
 
 func load(filename string, overload bool) error {
@@ -38,16 +37,14 @@ func load(filename string, overload bool) error {
 			_ = os.Setenv(key, value)
 		}
 	}
-
 	return nil
 }
 
 func read(filename string) (envMap map[string]string, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
-		return
+		return nil, err
 	}
 	defer file.Close()
-
 	return parse(file)
 }

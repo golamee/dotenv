@@ -1,15 +1,16 @@
-# Binary hasil build
+# Binary build
 *.exe
 *.out
 *.a
 *.o
 
-// Temporary Folder
+# Temporary Folder
 tmp/
 
-# File sementara dari editor
+# Temporary files from the editor
 *.swp
 *.swo
+.vscode
 
 # Folder build/output
 bin/
@@ -22,7 +23,6 @@ vendor/
 
 # File Makefile build
 *.dSYM
-.vscode
 
 # File environment
 .env

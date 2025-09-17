@@ -15,8 +15,7 @@ const (
 	charComment       = '#'
 	prefixSingleQuote = '\''
 	prefixDoubleQuote = '"'
-
-	exportPrefix = "export"
+	exportPrefix      = "export"
 )
 
 func parse(r io.Reader) (map[string]string, error) {
@@ -25,7 +24,6 @@ func parse(r io.Reader) (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return UnmarshalBytes(buf.Bytes())
 }
 
@@ -52,7 +50,6 @@ func parseBytes(src []byte, out map[string]string) error {
 		out[key] = value
 		cutset = left
 	}
-
 	return nil
 }
 
@@ -63,7 +60,6 @@ func Unmarshal(str string) (envMap map[string]string, err error) {
 func UnmarshalBytes(src []byte) (map[string]string, error) {
 	out := make(map[string]string)
 	err := parseBytes(src, out)
-
 	return out, err
 }
 
@@ -82,7 +78,6 @@ func getStatementStart(src []byte) []byte {
 	if pos == -1 {
 		return nil
 	}
-
 	return getStatementStart(src[pos:])
 }
 
@@ -161,7 +156,6 @@ func extractVarValue(src []byte, vars map[string]string) (value string, rest []b
 		}
 
 		trimmed := strings.TrimFunc(string(line[0:endOfVar]), isSpace)
-
 		return expandVariables(trimmed, vars), src[endOfLine:], nil
 	}
 
@@ -179,7 +173,6 @@ func extractVarValue(src []byte, vars map[string]string) (value string, rest []b
 		if quote == prefixDoubleQuote {
 			value = expandVariables(expandEscapes(value), vars)
 		}
-
 		return value, src[i+1:], nil
 	}
 
@@ -187,7 +180,6 @@ func extractVarValue(src []byte, vars map[string]string) (value string, rest []b
 	if valEndIndex == -1 {
 		valEndIndex = len(src)
 	}
-
 	return "", nil, fmt.Errorf("unterminated quoted value %s", src[:valEndIndex])
 }
 
